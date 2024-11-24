@@ -1,0 +1,70 @@
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+body{
+    font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    min-height: 100vh; 
+    margin: 0 auto;
+}
+
+.search{
+  top:6px;
+  left:10px;
+}
+
+.form-control{
+    border:none;
+    padding-left:32px;
+}
+
+.form-control:focus{
+    border:none;
+    box-shadow:none;
+}
+
+.green{
+    color:green;
+}
+</style>
+
+<div class="container mt-5 px-2">
+    
+    <div class="table-responsive">
+    <table class="table table-responsive table-borderless">
+        
+    <thead>
+        <tr class="bg-light">
+          <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
+          <th scope="col" width="5%">#</th>
+          <th scope="col" width="20%">Date</th>
+          <th scope="col" width="10%">Status</th>
+          <th scope="col" width="20%">Customer</th>
+          <th scope="col" width="20%">Purchased</th>
+          <th scope="col" class="text-end" width="20%"><span>Revenue</span></th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    <tr>
+      <td>12</td>
+      <td>1 Oct, 21</td>
+      <td><i class="fa fa-check-circle-o green"></i><span class="ms-1">Paid</span></td>
+      <td>Althan Travis</td>
+      <td>Wirecard for figma</td>
+      <td class="text-end"><span class="fw-bolder">$0.99</span> <i class="fa fa-ellipsis-h  ms-2"></i></td>
+    </tr>
+    
+  </tbody>
+</table>
+  
+  </div>
+    
+</div>

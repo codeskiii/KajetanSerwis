@@ -1,0 +1,17 @@
+{
+  "name": "kajetanserwis",
+  "version": "1.0.0",
+  "description": "Order managment",
+  "main": "run.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Pawelec",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.11.4"
+  }
+}
