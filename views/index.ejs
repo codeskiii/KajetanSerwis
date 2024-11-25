@@ -1,3 +1,33 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Super Serwis</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Zamówienia</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Pozostałe opcje
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
@@ -34,37 +64,62 @@ body{
 }
 </style>
 
-<div class="container mt-5 px-2">
-    
+<script type="text/javascript">
+  function add() {
+    console.log('Adding...');
+
+    fetch("/send", {
+      method: "POST",
+      body: JSON.stringify({
+        ClientId: 1,
+        OrderId: 1,
+        dateStart: '2024-11-25',
+        dateEnd: '2024-12-25',
+        Expenses: {
+          Type: 'Type1',
+          Value: 1111
+        },
+        Margin: 1,
+        PriceTotal: 1111
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+    .then(response => response.text())
+    .then(data => console.log("Server Response:", data))
+    .catch(error => console.error("Error:", error));
+
+    console.log('Added')
+  }
+</script>
+
+<div class="container mt-2 px-2" style="max-width: 60%;">  
     <div class="table-responsive">
     <table class="table table-responsive table-borderless">
-        
+      <button type="button" class="btn btn-primary" onclick="add()">Dodaj</button>
+      <button type="button" class="btn btn-secondary">Edytuj</button>
+      <button type="button" class="btn btn-danger">Usuń</button>
     <thead>
         <tr class="bg-light">
-          <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
-          <th scope="col" width="5%">#</th>
-          <th scope="col" width="20%">Date</th>
-          <th scope="col" width="10%">Status</th>
-          <th scope="col" width="20%">Customer</th>
-          <th scope="col" width="20%">Purchased</th>
-          <th scope="col" class="text-end" width="20%"><span>Revenue</span></th>
+          <th scope="col" width="1%">Customer Id</th>
+          <th scope="col" width="5%">Date Start</th>
+          <th scope="col" width="5%">Date End</th>
+          <th scope="col" width="20%" style="max-width: 30%">Note</th>
+          <th scope="col" width="1%">Price Total</th>
         </tr>
     </thead>
 
     <tbody>
-
-    <tr>
-      <td>12</td>
-      <td>1 Oct, 21</td>
-      <td><i class="fa fa-check-circle-o green"></i><span class="ms-1">Paid</span></td>
-      <td>Althan Travis</td>
-      <td>Wirecard for figma</td>
-      <td class="text-end"><span class="fw-bolder">$0.99</span> <i class="fa fa-ellipsis-h  ms-2"></i></td>
-    </tr>
-    
+        <tr>
+            <td>0000</td>
+            <td>00-00-0000</td>
+            <td>00-00-0000</td>
+            <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</td>
+            <td>0000$</td>
+        </tr>
   </tbody>
 </table>
-  
   </div>
     
 </div>
