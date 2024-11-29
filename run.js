@@ -7,10 +7,10 @@ const PORT = 3030;
 // Creating connection to orders database
 
 var con = mysql.createConnection({
-    host: '',
-    user: '',
-    password: '',
-    database: ''
+    host: '.',
+    user: '.',
+    password: '.',
+    database: '.'
 });
 
 con.connect(function(err) {
@@ -33,15 +33,30 @@ app.get('/', (req, res) => {
 });
 
 function insertOrder(order) {
-    const query = `INSERT INTO odrders (ClientId, OdrderId, Start, End, Expenses, Margin, PriceTotal) VALUES (${order.ClientId}, '${order.OrderId}', '${order.dateStart}', '${order.dateEnd}', ${JSON.stringify(order.Expenses)}, ${order.Margin}, ${order.PriceTotal});`;
+    const query = `INSERT INTO odrders () VALUES ();`;
 
-    con.execute(query, (error, results) => {
-    if (error) {
-        console.error(error);
-    } else {
-        console.log('Insert successful:', results);
-    }
-    });
+    con.query(query, function (err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+      });
+}
+
+function deleteOrder(order) {
+    const query = `DELETE FROM odrders WHERE x = ;`;
+
+    con.query(query, function (err, result) {
+        if (err) throw err;
+        console.log("Number of records deleted: " + result.affectedRows);
+      });
+}
+
+function updateOrder(order) {
+    const query = "UPDATE orders SET x = y_1 WHERE x = y_2";
+    
+    con.query(query, function (err, result) {
+        if (err) throw err;
+        console.log("Number of records updated: " + result.affectedRows);
+      });
 }
 
 app.post('/send', (req, res) => {
