@@ -1,16 +1,16 @@
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql2');
-const data_manager = require('./app/data_manager.js');
+const data_manager = require('./data_manager.js');
 const PORT = 3030;
 
 // Creating connection to orders database
 
 var con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Piotr123.,',
-    database: 'serwis'
+    host: 'X',
+    user: 'X',
+    password: 'X',
+    database: 'X'
 });
 
 con.connect(function(err) {

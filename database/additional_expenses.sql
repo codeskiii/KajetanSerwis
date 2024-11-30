@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS additional_expenses (
+    AdditionalExpensesId INTEGER NOT NULL AUTOINCREMENT,
+    equipmentId INT AUTOINCREMENT PRIMARY KEY,
+);
+
+CREATE TABLE IF NOT EXISTS equipment (
+  equipmentId INTEGER PRIMARY KEY AUTOINCREMENT,
+  equipmentName VARCHAR(100) NOT NULL,
+  quantity INTEGER NOT NULL,
+  cost FLOAT NOT NULL,
+  margin FLOAT NOT NULL,
+);
