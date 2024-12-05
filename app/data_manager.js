@@ -1,10 +1,11 @@
 function insertOrder(order, con) {
-  const query = `INSERT INTO odrders () VALUES ();`;
+  const query = `INSERT INTO users (Name, SecondName, Surname, Email, PhoneNumber)
+VALUES ('Jan', 'Kowalski', 'Nowak', 'jan.kowalski@example.com', '1234567890');`;
 
-  con.query(query, function (err, result) {
-      if (err) throw err;
-      console.log("1 record inserted");
-    });
+  //con.query(query, function (err, result) {
+  //    if (err) throw err;
+  //    console.log("1 record inserted");
+  //  });
 }
 
 function deleteOrder(order, con) {

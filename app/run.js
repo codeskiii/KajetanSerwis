@@ -7,10 +7,10 @@ const PORT = 3030;
 // Creating connection to orders database
 
 var con = mysql.createConnection({
-    host: 'X',
-    user: 'X',
-    password: 'X',
-    database: 'X'
+    host: 'x',
+    user: 'x',
+    password: 'x',
+    database: 'x'
 });
 
 con.connect(function(err) {

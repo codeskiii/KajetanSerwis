@@ -1,41 +1,46 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Modal Example</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+<body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Super Serwis</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">Księgowość</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Zamówienia
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Klienci</a></li>
-              <li><a class="dropdown-item" href="#">Zakupy</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item active" href="#">Lista zamówień</a></li>
+        <a class="navbar-brand" href="#">Super Serwis</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">Księgowość</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Zamówienia
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Klienci</a></li>
+                        <li><a class="dropdown-item" href="#">Zakupy</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item active" href="#">Lista zamówień</a></li>
+                    </ul>
+                </li>
             </ul>
-          </li>
-        </ul>
-      </div>
+        </div>
     </div>
-  </nav>
+</nav>
 
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
-
-body{
+body {
     font-family: 'Open Sans', sans-serif;
 }
-
 .container {
     display: flex;
     flex-direction: column;
@@ -43,83 +48,101 @@ body{
     min-height: 100vh; 
     margin: 0 auto;
 }
-
-.search{
-  top:6px;
-  left:10px;
+.form-control {
+    border: none;
+    padding-left: 32px;
 }
-
-.form-control{
-    border:none;
-    padding-left:32px;
+.form-control:focus {
+    border: none;
+    box-shadow: none;
 }
-
-.form-control:focus{
-    border:none;
-    box-shadow:none;
-}
-
-.green{
-    color:green;
+.green {
+    color: green;
 }
 </style>
 
-<script type="text/javascript">
-  function add() {
-    console.log('Adding...');
-
-    fetch("/send", {
-      method: "POST",
-      body: JSON.stringify({
-        ClientId: 1,
-        OrderId: 1,
-        dateStart: '2024-11-25',
-        dateEnd: '2024-12-25',
-        Expenses: {
-          Type: 'Type1',
-          Value: 1111
-        },
-        Margin: 1,
-        PriceTotal: 1111
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      },
-    })
-    .then(response => response.text())
-    .then(data => console.log("Server Response:", data))
-    .catch(error => console.error("Error:", error));
-
-    console.log('Added')
-  }
-</script>
-
 <div class="container mt-2 px-2" style="max-width: 60%;">  
     <div class="table-responsive">
-    <table class="table table-responsive table-borderless">
-      <button type="button" class="btn btn-primary" onclick="add()">Dodaj</button>
-      <button type="button" class="btn btn-secondary">Edytuj</button>
-      <button type="button" class="btn btn-danger">Usuń</button>
-    <thead>
-        <tr class="bg-light">
-          <th scope="col" width="1%">Customer Id</th>
-          <th scope="col" width="5%">Date Start</th>
-          <th scope="col" width="5%">Date End</th>
-          <th scope="col" width="20%" style="max-width: 30%">Note</th>
-          <th scope="col" width="1%">Price Total</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <tr>
-            <td>0000</td>
-            <td>00-00-0000</td>
-            <td>00-00-0000</td>
-            <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</td>
-            <td>0000$</td>
-        </tr>
-  </tbody>
-</table>
-  </div>
-    
+        <table class="table table-responsive table-borderless">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-whatever="@getbootstrap">Dodaj</button>
+            <button type="button" class="btn btn-secondary">Edytuj</button>
+            <button type="button" class="btn btn-danger">Usuń</button>
+            <thead>
+                <tr class="bg-light">
+                    <th scope="col" width="1%">Customer Id</th>
+                    <th scope="col" width="5%">Date Start</th>
+                    <th scope="col" width="5%">Date End</th>
+                    <th scope="col" width="20%" style="max-width: 30%">Note</th>
+                    <th scope="col" width="1%">Price Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>0000</td>
+                    <td>00-00-0000</td>
+                    <td>00-00-0000</td>
+                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</td>
+                    <td>0000$</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Recipient:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="add()">Send message</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function add() {
+        console.log('Adding...');
+        fetch("/send", {
+            method: "POST",
+            body: JSON.stringify({
+                ClientId: 1,
+                OrderId: 1,
+                dateStart: '2024-11-25',
+                dateEnd: '2024-12-25',
+                Expenses: {
+                    Type: 'Type1',
+                    Value: 1111
+                },
+                Margin: 1,
+                PriceTotal: 1111
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then(response => response.text())
+        .then(data => console.log("Server Response:", data))
+        .catch(error => console.error("Error:", error));
+        console.log('Added');
+    }
+</script>
+
+</body>
+</html>
