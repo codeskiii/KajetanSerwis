@@ -29,7 +29,17 @@ app.use(express.json());
 
 
 app.get('/', (req, res) => {
-    res.render('index');
+    var query = "SELECT * FROM orders;";
+
+    con.query(query, function (err, result) {
+        if (err) throw err;
+        console.log("Loaded order");
+        console.log(result);
+
+        res.render('index', {
+            data: result 
+        });
+      });
     console.log('Home loaded successfully!')
 });
 
@@ -37,6 +47,7 @@ app.post('/send', (req, res) => {
     const order = req.body;
     //console.log(`UserID: ${order}`);
     res.send('Recived order from client')
+    console.log(order);
     data_manager.insertOrder(order, con);
     console.log('Inserted order')
 }); 

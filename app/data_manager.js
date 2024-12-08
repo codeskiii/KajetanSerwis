@@ -1,11 +1,19 @@
 function insertOrder(order, con) {
-  const query = `INSERT INTO users (Name, SecondName, Surname, Email, PhoneNumber)
-VALUES ('Jan', 'Kowalski', 'Nowak', 'jan.kowalski@example.com', '1234567890');`;
+  const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format current date
+  const order_data = order.data;
 
-  //con.query(query, function (err, result) {
-  //    if (err) throw err;
-  //    console.log("1 record inserted");
-  //  });
+  // Handle undefined values by using NULL or appropriate default
+  const createdBy = order_data.creationBy !== undefined ? `'${order_data.creationBy}'` : 'NULL';
+  const note = order_data.note !== undefined ? `'${order_data.note}'` : 'NULL';
+
+  const query = `INSERT INTO orders (UserId, CreationDate, StartDay, EndDay, IsActive, CreatedBy, Note)
+VALUES (${order_data.userId}, '${currentDate}', '${order_data.dateStart}', '${order_data.dateEnd}',
+${order_data.isActive}, ${createdBy}, ${note});`;
+
+  con.query(query, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+  });
 }
 
 function deleteOrder(order, con) {

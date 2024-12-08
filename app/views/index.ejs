@@ -64,7 +64,7 @@ body {
 <div class="container mt-2 px-2" style="max-width: 60%;">  
     <div class="table-responsive">
         <table class="table table-responsive table-borderless">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-whatever="@getbootstrap">Dodaj</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddOrderRecordModal" data-whatever="@getbootstrap">Dodaj</button>
             <button type="button" class="btn btn-secondary">Edytuj</button>
             <button type="button" class="btn btn-danger">Usuń</button>
             <thead>
@@ -76,6 +76,7 @@ body {
                     <th scope="col" width="1%">Price Total</th>
                 </tr>
             </thead>
+            <!--
             <tbody>
                 <tr>
                     <td>0000</td>
@@ -85,26 +86,54 @@ body {
                     <td>0000$</td>
                 </tr>
             </tbody>
+            -->
+            <tbody>
+            <% for (let i; i < data.lenght; i++) { %>
+                <tr>
+                    <td><%= data[i].customerId %></td>
+                    <td><%= data[i].dateStart %></td>
+                    <td><%= data[i].dateEnd %></td>
+                    <td><%= data[i].note %></td>
+                    <td><%= data[i].priceTotal %></td>
+                </tr>
+            <% } %>
+            </tbody>
         </table>
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddOrderRecordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <h5 class="modal-title" id="exampleModalLabel">New order</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Recipient:</label>
-                        <input type="text" class="form-control" id="recipient-name">
+                        <label for="recipient-name" class="col-form-label">UserId:</label>
+                        <input type="number" class="form-control" id="recipient-name" style="background-color: rgb(233, 233, 233);">
                     </div>
                     <div class="form-group">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
+                        <label for="date-start" class="col-form-label">Date Start:</label>
+                        <input type="date" class="form-control" id="date-start" style="background-color: rgb(233, 233, 233);">
+                    </div>
+                    <div class="form-group">
+                        <label for="date-end" class="col-form-label">Date End:</label>
+                        <input type="date" class="form-control" id="date-end" style="background-color: rgb(233, 233, 233);">
+                    </div>
+                    <div class="form-group">
+                        <label for="isActive" class="col-form-label">IsActive:</label>
+                        <input type="checkbox" class="form-check-input" id="isActive" style="background-color: rgb(233, 233, 233);">
+                    </div>
+                    <div class="form-group">
+                        <label for="created-by" class="col-form-label">Created by:</label>
+                        <input type="text" class="form-control" id="created-by" style="background-color: rgb(233, 233, 233);">
+                    </div>
+                    <div class="form-group">
+                        <label for="note" class="col-form-label">Note:</label>
+                        <textarea class="form-control" id="note" style="background-color: rgb(233, 233, 233);"></textarea>
                     </div>
                 </form>
             </div>
@@ -117,22 +146,34 @@ body {
 </div>
 
 <script>
+    function collect_from_mod() {
+        const userId = document.getElementById('recipient-name').value; // UserId
+        const dateStart = document.getElementById('date-start').value; // Date Start
+        const dateEnd = document.getElementById('date-end').value; // Date End
+        const isActive = document.getElementById('isActive').checked; // IsActive
+        const createdBy = document.getElementById('created-by').value; // Created by
+        const note = document.getElementById('note').value; // Note
+
+        const return_data = {
+            userId: userId,
+            dateStart: dateStart,
+            dateEnd: dateEnd,
+            isActive: isActive,
+            createdBy: createdBy,
+            note: note,
+        };
+
+        return return_data;
+    }
+
     function add() {
         console.log('Adding...');
+        const dataToSend = collect_from_mod();
+        console.log('Sending data:', dataToSend);
+
         fetch("/send", {
             method: "POST",
-            body: JSON.stringify({
-                ClientId: 1,
-                OrderId: 1,
-                dateStart: '2024-11-25',
-                dateEnd: '2024-12-25',
-                Expenses: {
-                    Type: 'Type1',
-                    Value: 1111
-                },
-                Margin: 1,
-                PriceTotal: 1111
-            }),
+            body: JSON.stringify({ data: dataToSend }),
             headers: {
                 "Content-Type": "application/json"
             },
@@ -140,6 +181,7 @@ body {
         .then(response => response.text())
         .then(data => console.log("Server Response:", data))
         .catch(error => console.error("Error:", error));
+        
         console.log('Added');
     }
 </script>
