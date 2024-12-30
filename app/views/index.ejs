@@ -88,18 +88,23 @@ body {
             </tbody>
             -->
             <tbody>
-            <% for (let i; i < data.lenght; i++) { %>
-                <tr>
-                    <td><%= data[i].customerId %></td>
-                    <td><%= data[i].dateStart %></td>
-                    <td><%= data[i].dateEnd %></td>
-                    <td><%= data[i].note %></td>
-                    <td><%= data[i].priceTotal %></td>
-                </tr>
-            <% } %>
+                <% 
+                const jsonData = JSON.stringify(data); // Convert `data` to a JSON string
+                const parsedData = JSON.parse(jsonData); // Parse it back to an object or array
+                for (let i = 0; i < parsedData.length; i++) { 
+                %>
+                    <tr>
+                        <td><%= parsedData[i].UserId %></td>
+                        <td><%= parsedData[i].StartDay %></td>
+                        <td><%= parsedData[i].EndDay %></td>
+                        <td><%= parsedData[i].Note %></td>
+                        <td><%= "Query in progres..." %></td>
+                    </tr>
+                <% } %>
             </tbody>
         </table>
     </div>
+
 </div>
 
 <div class="modal fade" id="AddOrderRecordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
