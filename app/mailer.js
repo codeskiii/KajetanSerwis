@@ -1,3 +1,6 @@
+// Sending email with Nodemailer module 
+// TO DO:
+
 var nodemailer = require('nodemailer');
 
 function sendEmail() {

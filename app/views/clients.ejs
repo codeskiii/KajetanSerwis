@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bootstrap Modal Example</title>
+    <title>Bootstrap Modal Example - Modified</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
@@ -69,34 +69,29 @@ body {
             <button type="button" class="btn btn-danger">Usuń</button>
             <thead>
                 <tr class="bg-light">
-                    <th scope="col" width="1%">Customer Id</th>
-                    <th scope="col" width="5%">Date Start</th>
-                    <th scope="col" width="5%">Date End</th>
-                    <th scope="col" width="20%" style="max-width: 30%">Note</th>
-                    <th scope="col" width="1%">Price Total</th>
+                    <th scope="col" width="1%">UserId</th>
+                    <th scope="col" width="10%">Name</th>
+                    <th scope="col" width="10%">SecondName</th>
+                    <th scope="col" width="10%">Surname</th>
+                    <th scope="col" width="20%">Email</th>
+                    <th scope="col" width="12%">PhoneNumber</th>
                 </tr>
             </thead>
-            <!--
             <tbody>
-                <tr>
-                    <td>0000</td>
-                    <td>00-00-0000</td>
-                    <td>00-00-0000</td>
-                    <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</td>
-                    <td>0000$</td>
-                </tr>
-            </tbody>
-            -->
-            <tbody>
-            <% for (let i; i < data.lenght; i++) { %>
-                <tr>
-                    <td><%= data[i].customerId %></td>
-                    <td><%= data[i].dateStart %></td>
-                    <td><%= data[i].dateEnd %></td>
-                    <td><%= data[i].note %></td>
-                    <td><%= data[i].priceTotal %></td>
-                </tr>
-            <% } %>
+                <% 
+                const jsonData = JSON.stringify(data); // Convert `data` to a JSON string
+                const parsedData = JSON.parse(jsonData); // Parse it back to an object or array
+                for (let i = 0; i < parsedData.length; i++) { 
+                %>
+                    <tr>
+                        <td><%= parsedData[i].UserId %></td>
+                        <td><%= parsedData[i].Name %></td>
+                        <td><%= parsedData[i].SecondName %></td>
+                        <td><%= parsedData[i].Surname %></td>
+                        <td><%= parsedData[i].Email %></td>
+                        <td><%= parsedData[i].PhoneNumber %></td>
+                    </tr>
+                <% } %>
             </tbody>
         </table>
     </div>
@@ -112,28 +107,24 @@ body {
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">UserId:</label>
-                        <input type="number" class="form-control" id="recipient-name" style="background-color: rgb(233, 233, 233);">
+                        <label for="name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="name" style="background-color: rgb(233, 233, 233);">
                     </div>
                     <div class="form-group">
-                        <label for="date-start" class="col-form-label">Date Start:</label>
-                        <input type="date" class="form-control" id="date-start" style="background-color: rgb(233, 233, 233);">
+                        <label for="second-name" class="col-form-label">Second Name:</label>
+                        <input type="text" class="form-control" id="second-name" style="background-color: rgb(233, 233, 233);">
                     </div>
                     <div class="form-group">
-                        <label for="date-end" class="col-form-label">Date End:</label>
-                        <input type="date" class="form-control" id="date-end" style="background-color: rgb(233, 233, 233);">
+                        <label for="surname" class="col-form-label">Surname:</label>
+                        <input type="text" class="form-control" id="surname" style="background-color: rgb(233, 233, 233);">
                     </div>
                     <div class="form-group">
-                        <label for="isActive" class="col-form-label">IsActive:</label>
-                        <input type="checkbox" class="form-check-input" id="isActive" style="background-color: rgb(233, 233, 233);">
+                        <label for="email" class="col-form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" style="background-color: rgb(233, 233, 233);">
                     </div>
                     <div class="form-group">
-                        <label for="created-by" class="col-form-label">Created by:</label>
-                        <input type="text" class="form-control" id="created-by" style="background-color: rgb(233, 233, 233);">
-                    </div>
-                    <div class="form-group">
-                        <label for="note" class="col-form-label">Note:</label>
-                        <textarea class="form-control" id="note" style="background-color: rgb(233, 233, 233);"></textarea>
+                        <label for="phone-number" class="col-form-label">Phone Number:</label>
+                        <input type="text" class="form-control" id="phone-number" style="background-color: rgb(233, 233, 233);">
                     </div>
                 </form>
             </div>
@@ -146,22 +137,19 @@ body {
 </div>
 
 <script>
-    
     function collect_from_mod() {
-        const userId = document.getElementById('recipient-name').value; // UserId
-        const dateStart = document.getElementById('date-start').value; // Date Start
-        const dateEnd = document.getElementById('date-end').value; // Date End
-        const isActive = document.getElementById('isActive').checked; // IsActive
-        const createdBy = document.getElementById('created-by').value; // Created by
-        const note = document.getElementById('note').value; // Note
+        const name = document.getElementById('name').value; // Name
+        const secondName = document.getElementById('second-name').value; // Second Name
+        const surname = document.getElementById('surname').value; // Surname
+        const email = document.getElementById('email').value; // Email
+        const phoneNumber = document.getElementById('phone-number').value; // Phone Number
 
         const return_data = {
-            userId: userId,
-            dateStart: dateStart,
-            dateEnd: dateEnd,
-            isActive: isActive,
-            createdBy: createdBy,
-            note: note,
+            name: name,
+            secondName: secondName,
+            surname: surname,
+            email: email,
+            phoneNumber: phoneNumber,
         };
 
         return return_data;
@@ -172,7 +160,7 @@ body {
         const dataToSend = collect_from_mod();
         console.log('Sending data:', dataToSend);
 
-        fetch("/send-order", {
+        fetch("/send-user", {
             method: "POST",
             body: JSON.stringify({ data: dataToSend }),
             headers: {
@@ -182,7 +170,7 @@ body {
         .then(response => response.text())
         .then(data => console.log("Server Response:", data))
         .catch(error => console.error("Error:", error));
-        
+
         console.log('Added');
     }
 </script>
