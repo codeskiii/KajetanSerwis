@@ -20,7 +20,7 @@ con.connect(function(err) {
     console.log("Connected to database!");
 });
 
-// Initializing web application 
+// Initializing web app 
 
 var app = express();
 app.use(express.static(path.join(__dirname, 'views')));
@@ -29,6 +29,9 @@ app.set('view engine', 'ejs');
 // create application/json parser
 app.use(express.json());
 
+/*
+PAGES
+*/
 
 app.get('/', (req, res) => {
     var query = "SELECT * FROM orders;";
@@ -59,6 +62,10 @@ app.get('/clients', (req, res) => {
     });
 });
 
+/*
+POSTING STUFF
+*/
+
 app.post('/send-order', (req, res) => {
     const order = req.body;
     //console.log(`UserID: ${order}`);
@@ -69,10 +76,20 @@ app.post('/send-order', (req, res) => {
 }); 
 
 app.post('/send-user', (req, res) => {
-    const user = req.body; // This should be the user object as expected
+    const user = req.body;
     res.send('Received user from client');
-    data_manager.insertUser(user, con); // Pass the user object directly
+    data_manager.insertUser(user, con);
 });
+
+/*
+DELETEING STUFF
+*/
+
+
+/*
+LISTEN (it's true art)
+*/
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

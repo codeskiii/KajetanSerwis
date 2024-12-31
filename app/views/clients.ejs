@@ -28,7 +28,7 @@
                         <li><a class="dropdown-item" href="/clients">Klienci</a></li>
                         <li><a class="dropdown-item" href="#">Zakupy</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item active" href="#">Lista zamówień</a></li>
+                        <li><a class="dropdown-item active" href="/">Lista zamówień</a></li>
                     </ul>
                 </li>
             </ul>
@@ -75,6 +75,7 @@ body {
                     <th scope="col" width="10%">Surname</th>
                     <th scope="col" width="20%">Email</th>
                     <th scope="col" width="12%">PhoneNumber</th>
+                    <th scope="col" width="12%">Options</th>
                 </tr>
             </thead>
             <tbody>
@@ -90,6 +91,11 @@ body {
                         <td><%= parsedData[i].Surname %></td>
                         <td><%= parsedData[i].Email %></td>
                         <td><%= parsedData[i].PhoneNumber %></td>
+                        <td>
+                            <button  type="button" class="btn btn-danger">USUN</button>
+                            <button type="button" class="btn btn-secondary">Edytuj</button>
+                            <button  type="button" class="btn btn-primary">E-MAIL</button>
+                        </td>
                     </tr>
                 <% } %>
             </tbody>

@@ -74,6 +74,7 @@ body {
                     <th scope="col" width="5%">Date End</th>
                     <th scope="col" width="20%" style="max-width: 30%">Note</th>
                     <th scope="col" width="1%">Price Total</th>
+                    <th scope="col" width="12%">Options</th>
                 </tr>
             </thead>
             <!--
@@ -99,6 +100,12 @@ body {
                         <td><%= parsedData[i].EndDay %></td>
                         <td><%= parsedData[i].Note %></td>
                         <td><%= "Query in progres..." %></td>
+                        <td>
+                            <button  type="button" class="btn btn-danger">USUN</button>
+                            <button  type="button" class="btn btn-primary">E-MAIL</button>
+                            <button type="button" class="btn btn-secondary">Edytuj</button>
+                            <button  type="button" class="btn btn-primary">KSIEGUJ</button>
+                        </td>
                     </tr>
                 <% } %>
             </tbody>
