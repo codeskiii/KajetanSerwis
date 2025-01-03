@@ -65,11 +65,19 @@ body {
     <div class="table-responsive">
         <table class="table table-responsive table-borderless">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddOrderRecordModal" data-whatever="@getbootstrap">Dodaj</button>
+            <!--
             <button type="button" class="btn btn-secondary">Edytuj</button>
             <button type="button" class="btn btn-danger">Usuń</button>
+            -->
+            <button type="button" class="btn btn-secondary" type="button" 
+            class="btn btn-primary" data-bs-toggle="modal" 
+            data-bs-target="#UpdateOrderRecordModal" 
+            data-whatever="@getbootstrap">Edytuj</button>
+
             <thead>
                 <tr class="bg-light">
                     <th scope="col" width="1%">Customer Id</th>
+                    <th scope="col" width="1%">Service Id</th>
                     <th scope="col" width="5%">Date Start</th>
                     <th scope="col" width="5%">Date End</th>
                     <th scope="col" width="20%" style="max-width: 30%">Note</th>
@@ -96,14 +104,15 @@ body {
                 %>
                     <tr>
                         <td><%= parsedData[i].UserId %></td>
+                        <td><%= parsedData[i].ServiceId %></td>
                         <td><%= parsedData[i].StartDay %></td>
                         <td><%= parsedData[i].EndDay %></td>
                         <td><%= parsedData[i].Note %></td>
                         <td><%= "Query in progres..." %></td>
                         <td>
-                            <button  type="button" class="btn btn-danger">USUN</button>
+                            <button  type="button" class="btn btn-danger" onclick="delete_user(<%= parsedData[i].ServiceId %>)">USUN</button>
                             <button  type="button" class="btn btn-primary">E-MAIL</button>
-                            <button type="button" class="btn btn-secondary">Edytuj</button>
+
                             <button  type="button" class="btn btn-primary">KSIEGUJ</button>
                         </td>
                     </tr>
@@ -151,11 +160,24 @@ body {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="add()">Send message</button>
+                <button type="button" class="btn btn-primary" onclick="add()">Send</button>
             </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function delete_user(id) {
+        console.log('Deleting:', id);
+        fetch("/delete-order/" + id, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+       .then(response => response.text())
+    }
+</script>
 
 <script>
     
@@ -196,6 +218,85 @@ body {
         .catch(error => console.error("Error:", error));
         
         console.log('Added');
+    }
+</script>
+
+<div class="modal fade" id="UpdateOrderRecordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name-up" class="col-form-label">ServiceId:</label>
+                        <input type="number" class="form-control" id="recipient-name-up" style="background-color: rgb(233, 233, 233);">
+                    </div>
+                    <div class="form-group">
+                        <label for="date-start-up" class="col-form-label">Date Start:</label>
+                        <input type="date" class="form-control" id="date-start-up" style="background-color: rgb(233, 233, 233);">
+                    </div>
+                    <div class="form-group">
+                        <label for="date-end-up" class="col-form-label">Date End:</label>
+                        <input type="date" class="form-control" id="date-end-up" style="background-color: rgb(233, 233, 233);">
+                    </div>
+                    <div class="form-group">
+                        <label for="isActive-up" class="col-form-label">IsActive:</label>
+                        <input type="checkbox" class="form-check-input" id="isActive-up" style="background-color: rgb(233, 233, 233);">
+                    </div>
+                    <div class="form-group">
+                        <label for="note-up" class="col-form-label">Note:</label>
+                        <textarea class="form-control" id="note-up" style="background-color: rgb(233, 233, 233);"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="update()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    function collect_from_mod_update() {
+        const ServiceId = document.getElementById('recipient-name-up').value; // ServiceId
+        const dateStart = document.getElementById('date-start-up').value; // Date Start
+        const dateEnd = document.getElementById('date-end-up').value; // Date End
+        const isActive = document.getElementById('isActive-up').checked; // IsActive
+        const note = document.getElementById('note-up').value; // Note
+
+        const return_data = {
+            ServiceId: ServiceId,
+            dateStart: dateStart,
+            dateEnd: dateEnd,
+            isActive: isActive,
+            note: note,
+        };
+
+        return return_data;
+    }
+
+    function update() {
+        console.log('Updating...');
+        const dataToSend = collect_from_mod_update();
+        console.log('Sending data:', dataToSend);
+
+        fetch("/update-order", {
+            method: "POST",
+            body: JSON.stringify({ data: dataToSend }),
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        .then(response => response.text())
+        .then(data => console.log("Server Response:", data))
+        .catch(error => console.error("Error:", error));
+        
+        console.log('Updated');
     }
 </script>
 

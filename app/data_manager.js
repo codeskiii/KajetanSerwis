@@ -6,40 +6,43 @@ This module contains functions that are used to manage DB
 
 ========== ORDER MANAGING FUNCTIONS =================================
 
-1. INSERT ORDER WITH WRITEN QUERY
+1. INSERT ORDER WITH WRITTEN QUERY
 
-2. DELETE ORDER WITH WRITEN QUERY
+2. DELETE ORDER WITH WRITTEN QUERY
 
-3. UPDATE ORDER WITH WRITEN QUERY
+3. UPDATE ORDER WITH WRITTEN QUERY
 */
 
 function insertOrder(order, con) {
-  const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format current date
-  const order_data = order.data;
+    const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format current date
+    const { userId, dateStart, dateEnd, isActive, createdBy, note } = order.data;
 
-  const query = `INSERT INTO orders (UserId, CreationDate, StartDay, EndDay, IsActive, CreatedBy, Note) VALUES (${order_data.userId}, '${currentDate}', '${order_data.dateStart}', '${order_data.dateEnd}', ${order_data.isActive}, '${order_data.createdBy}', '${order_data.note}');`;
+    const query = `INSERT INTO orders (UserId, CreationDate, StartDay, EndDay, IsActive, CreatedBy, Note) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-  con.query(query, function (err, result) {
-      if (err) throw err;
-      console.log("1 record inserted");
-  });
+    con.query(query, [userId, currentDate, dateStart, dateEnd, isActive, createdBy, note], function (err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+    });
 }
 
-function deleteOrder(order, con) {
-  const query = `DELETE FROM odrders WHERE x = ;`;
+function deleteOrder(serviceId, con) {
+    const query = `DELETE FROM orders WHERE ServiceId = ?`;
 
-  con.query(query, function (err, result) {
-      if (err) throw err;
-      console.log("Number of records deleted: " + result.affectedRows);
+    con.query(query, [serviceId], function (err, result) {
+        if (err) throw err;
+        console.log("Number of records deleted: " + result.affectedRows);
     });
 }
 
 function updateOrder(order, con) {
-  const query = "UPDATE orders SET x = y_1 WHERE x = y_2";
-  
-  con.query(query, function (err, result) {
-      if (err) throw err;
-      console.log("Number of records updated: " + result.affectedRows);
+    const { dateStart, dateEnd, isActive, note, ServiceId } = order.data;
+    console.log(dateStart, dateEnd, isActive, note, ServiceId);
+
+    const query = `UPDATE orders SET StartDay = ?, EndDay = ?, IsActive = ?, Note = ? WHERE ServiceId = ?`;
+
+    con.query(query, [dateStart, dateEnd, isActive, note, ServiceId], function (err, result) {
+        if (err) throw err;
+        console.log("Number of records updated: " + result.affectedRows);
     });
 }
 
@@ -47,51 +50,53 @@ function updateOrder(order, con) {
 
 ========== USER MANAGING FUNCTIONS =================================
 
-1. INSERT USER WUTH WRITEN QUERY
+1. INSERT USER WITH WRITTEN QUERY
 
-2. DELETE USER WITH WRITEN QUERY
+2. DELETE USER WITH WRITTEN QUERY
 
-3. UPDATE USER WITH WRITEN QUERY
+3. UPDATE USER WITH WRITTEN QUERY
 
 */
 
 function insertUser(user_data, con) {
-    const user = user_data.data;
-    console.log("Inserted user: " + user)
-    const query = `INSERT INTO users (Name, SecondName, Surname, Email, PhoneNumber) VALUES ('${user.name}', '${user.secondName}', '${user.surname}', '${user.email}', '${user.phoneNumber}');`;
+    const { name, secondName, surname, email, phoneNumber } = user_data.data;
 
-    con.query(query, function (err, result) {
+    const query = `INSERT INTO users (Name, SecondName, Surname, Email, PhoneNumber) VALUES (?, ?, ?, ?, ?)`;
+
+    con.query(query, [name, secondName, surname, email, phoneNumber], function (err, result) {
         if (err) throw err;
         console.log("1 user inserted");
     });
 }
 
 function deleteUser(userId, con) {
-    const query = `DELETE FROM users WHERE UserId = ${userId};`;
+    const query = `DELETE FROM users WHERE UserId = ?`;
 
-    con.query(query, function (err, result) {
+    con.query(query, [userId], function (err, result) {
         if (err) throw err;
         console.log("Number of users deleted: " + result.affectedRows);
     });
 }
 
 function updateUser(user, con) {
-    const query = `UPDATE users SET Name = '${user.name}', SecondName = '${user.secondName}', Surname = '${user.surname}', Email = '${user.email}', PhoneNumber = '${user.phoneNumber}' WHERE UserId = ${user.userId};`;
+    const { name, secondName, surname, email, phoneNumber, userId } = user;
 
-    con.query(query, function (err, result) {
+    const query = `UPDATE users SET Name = ?, SecondName = ?, Surname = ?, Email = ?, PhoneNumber = ? WHERE UserId = ?`;
+
+    con.query(query, [name, secondName, surname, email, phoneNumber, userId], function (err, result) {
         if (err) throw err;
         console.log("Number of users updated: " + result.affectedRows);
     });
 }
 
 module.exports = {
-// USER FUNCTIONS
-  insertUser,
-  deleteUser,
-  updateUser,
+    // USER FUNCTIONS
+    insertUser,
+    deleteUser,
+    updateUser,
 
-// ORDER FUNCTIONS
-  insertOrder,
-  deleteOrder,
-  updateOrder
+    // ORDER FUNCTIONS
+    insertOrder,
+    deleteOrder,
+    updateOrder,
 };
