@@ -98,19 +98,23 @@ body {
             -->
             <tbody>
                 <% 
-                const jsonData = JSON.stringify(data); // Convert `data` to a JSON string
-                const parsedData = JSON.parse(jsonData); // Parse it back to an object or array
-                for (let i = 0; i < parsedData.length; i++) { 
+                let orders_js = JSON.stringify(orders);
+                let orders_parsed = JSON.parse(orders_js);
+
+                let money_js = JSON.stringify(money);
+                let money_parsed = JSON.parse(money_js);
+
+                for (let i = 0; i < orders_parsed.length; i++) {
                 %>
                     <tr>
-                        <td><%= parsedData[i].UserId %></td>
-                        <td><%= parsedData[i].ServiceId %></td>
-                        <td><%= parsedData[i].StartDay %></td>
-                        <td><%= parsedData[i].EndDay %></td>
-                        <td><%= parsedData[i].Note %></td>
-                        <td><%= "Query in progres..." %></td>
+                        <td><%= orders_parsed[i].UserId %></td>
+                        <td><%= orders_parsed[i].ServiceId %></td>
+                        <td><%= orders_parsed[i].StartDay %></td>
+                        <td><%= orders_parsed[i].EndDay %></td>
+                        <td><%= orders_parsed[i].Note %></td>
+                        <td><%= money_parsed[i].ServiceCost * (money_parsed[i].Tax / 100 + 1) %></td>
                         <td>
-                            <button  type="button" class="btn btn-danger" onclick="delete_user(<%= parsedData[i].ServiceId %>)">USUN</button>
+                            <button  type="button" class="btn btn-danger" onclick="delete_user(<%= orders_parsed[i].ServiceId %>)">USUN</button>
                             <button  type="button" class="btn btn-primary">E-MAIL</button>
 
                             <button  type="button" class="btn btn-primary">KSIEGUJ</button>
@@ -250,6 +254,14 @@ body {
                         <label for="note-up" class="col-form-label">Note:</label>
                         <textarea class="form-control" id="note-up" style="background-color: rgb(233, 233, 233);"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="note-up" class="col-form-label">Service Cost</label>
+                        <input type="number" class="form-control" id="cost-up" style="background-color: rgb(233, 233, 233);">
+                    </div>
+                    <div class="form-group">
+                        <label for="note-up" class="col-form-label">Service Tax in %</label>
+                        <input type="number" class="form-control" id="tax-up" style="background-color: rgb(233, 233, 233);">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -262,42 +274,59 @@ body {
 
 <script>
     
-    function collect_from_mod_update() {
-        const ServiceId = document.getElementById('recipient-name-up').value; // ServiceId
-        const dateStart = document.getElementById('date-start-up').value; // Date Start
-        const dateEnd = document.getElementById('date-end-up').value; // Date End
-        const isActive = document.getElementById('isActive-up').checked; // IsActive
-        const note = document.getElementById('note-up').value; // Note
+function collect_from_mod_update() {
+    const fields = {
+        ServiceId: 'recipient-name-up',
+        dateStart: 'date-start-up',
+        dateEnd: 'date-end-up',
+        isActive: 'isActive-up',
+        note: 'note-up',
+        ServiceCost: 'cost-up',
+        Tax: 'tax-up',
+    };
 
-        const return_data = {
-            ServiceId: ServiceId,
-            dateStart: dateStart,
-            dateEnd: dateEnd,
-            isActive: isActive,
-            note: note,
-        };
+    const return_data = {};
 
-        return return_data;
+    for (const [key, id] of Object.entries(fields)) {
+        const element = document.getElementById(id);
+        if (element.type === 'checkbox') {
+            if (element.checked) {
+                return_data[key] = element.checked;
+            }
+        } else if (element.value.trim() !== '') {
+            return_data[key] = element.value;
+        }
+    }
+    console.log(return_data);
+
+    return return_data;
+}
+
+function update() {
+    console.log('Updating...');
+    const dataToSend = collect_from_mod_update();
+
+    if (Object.keys(dataToSend).length === 0) {
+        console.warn('No data to send. Update aborted.');
+        return;
     }
 
-    function update() {
-        console.log('Updating...');
-        const dataToSend = collect_from_mod_update();
-        console.log('Sending data:', dataToSend);
+    console.log('Sending data:', dataToSend);
 
-        fetch("/update-order", {
-            method: "POST",
-            body: JSON.stringify({ data: dataToSend }),
-            headers: {
-                "Content-Type": "application/json"
-            },
-        })
+    fetch("/update-order", {
+        method: "POST",
+        body: JSON.stringify({ data: dataToSend }),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
         .then(response => response.text())
         .then(data => console.log("Server Response:", data))
         .catch(error => console.error("Error:", error));
-        
-        console.log('Updated');
-    }
+
+    console.log('Updated');
+}
+
 </script>
 
 </body>

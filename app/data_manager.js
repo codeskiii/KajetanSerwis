@@ -21,7 +21,7 @@ function insertOrder(order, con) {
 
     con.query(query, [userId, currentDate, dateStart, dateEnd, isActive, createdBy, note], function (err, result) {
         if (err) throw err;
-        console.log("1 record inserted");
+        console.log("1 record inserted into orders");
     });
 }
 
@@ -35,16 +35,54 @@ function deleteOrder(serviceId, con) {
 }
 
 function updateOrder(order, con) {
-    const { dateStart, dateEnd, isActive, note, ServiceId } = order.data;
-    console.log(dateStart, dateEnd, isActive, note, ServiceId);
+    const { dateStart, dateEnd, isActive, note, ServiceId, ServiceCost, Tax } = order.data;
+    console.log(dateStart, dateEnd, isActive, note, ServiceId, ServiceCost, Tax);
 
-    const query = `UPDATE orders SET StartDay = ?, EndDay = ?, IsActive = ?, Note = ? WHERE ServiceId = ?`;
+    // Build dynamic query for `orders` table
+    let updateFields = [];
+    let updateValues = [];
 
-    con.query(query, [dateStart, dateEnd, isActive, note, ServiceId], function (err, result) {
-        if (err) throw err;
-        console.log("Number of records updated: " + result.affectedRows);
-    });
+    if (dateStart) {
+        updateFields.push("StartDay = ?");
+        updateValues.push(dateStart);
+    }
+    if (dateEnd) {
+        updateFields.push("EndDay = ?");
+        updateValues.push(dateEnd);
+    }
+    if (isActive !== undefined) { // Allow `false` values
+        updateFields.push("IsActive = ?");
+        updateValues.push(isActive);
+    }
+    if (note) {
+        updateFields.push("Note = ?");
+        updateValues.push(note);
+    }
+
+    if (updateFields.length > 0) {
+        const query = `UPDATE orders SET ${updateFields.join(", ")} WHERE ServiceId = ?`;
+        updateValues.push(ServiceId);
+
+        con.query(query, updateValues, function (err, result) {
+            if (err) throw err;
+            console.log("Number of records updated: " + result.affectedRows);
+        });
+    } else {
+        console.log("No fields to update in orders table.");
+    }
+
+    // Insert into `money_stuff` table if values are provided
+    if (ServiceCost || Tax) {
+        const query_2 = `INSERT INTO money_stuff (ServiceId, ServiceCost, Tax) VALUES (?, ?, ?)`;
+        con.query(query_2, [ServiceId, ServiceCost || null, Tax || null], function (err, resul) {
+            if (err) throw err;
+            console.log("1 record inserted into money table");
+        });
+    } else {
+        console.log("No values provided for money_stuff table.");
+    }
 }
+
 
 /*
 

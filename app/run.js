@@ -34,17 +34,28 @@ app.use(express.json());
 PAGES
 */
 
-app.get('/', (req, res) => {
-    const query = "SELECT * FROM orders;";
-    con.query(query, (err, result) => {
-        if (err) {
-            console.error("Error fetching orders:", err);
-            res.status(500).send("Error fetching orders");
-            return;
-        }
-        console.log("Loaded orders:", result);
-        res.render('index', { data: result });
-    });
+app.get('/', async (req, res) => {
+    try {
+        // Promisify the query function
+        const query = (sql) => new Promise((resolve, reject) => {
+            con.query(sql, (err, result) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(result);
+            });
+        });
+
+        // Execute queries
+        const orders = await query("SELECT * FROM orders;");
+        const money = await query("SELECT * FROM money_stuff;");
+
+        // Render the view after both queries have completed
+        res.render('index', { orders, money });
+    } catch (err) {
+        console.error("Error fetching data:", err);
+        res.status(500).send("Error fetching data");
+    }
 });
 
 app.get('/clients', (req, res) => {
